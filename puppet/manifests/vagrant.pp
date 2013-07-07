@@ -15,9 +15,6 @@ class mysql-setup {
   class { 'mysql':
   }
 
-  class { 'mysql::java':
-  }
-
   class { 'mysql::server':
     config_hash => {
       root_password => 'toor'
@@ -32,13 +29,39 @@ class apache-setup {
     mpm_module => 'prefork',
   }
 
+  class { 'apache::mod::proxy_http':
+  }
+
   apache::vhost { 'acme-library':
     port => '80',
-    docroot => '/vagrant/www',
+    docroot => '/vagrant/app',
+	proxy_pass => [ { path => '/', url => 'http://localhost:8080/acme-library/' } ],
 	default_vhost => true,
+  }
+}
+
+class tomcat-setup {
+  require system-update
+
+  package { 'tomcat7':
+    ensure => installed
+  }
+
+  file { '/var/lib/tomcat7/webapps/acme-library':
+    require => Package['tomcat7'],
+
+    ensure => link,
+	target => '/vagrant/app/target/webapp',
+  }
+
+  service { 'tomcat7':
+    require => Package['tomcat7'],
+
+    ensure => running,
   }
 }
 
 include system-update
 include mysql-setup
 include apache-setup
+include tomcat-setup
