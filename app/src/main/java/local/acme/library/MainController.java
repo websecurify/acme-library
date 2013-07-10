@@ -39,15 +39,20 @@ public class MainController
 		{
 			Session session = DatabaseOperations.getSession(sessionId);
 
-			int userId = session.getUserId();
+			if (session == null) {
+				sessionId = DatabaseOperations.createSession();
+				response.addCookie(new Cookie("sessionId", sessionId));
+			} else {
+				int userId = session.getUserId();
 
-			if (userId != 0)
-			{
-				User user = DatabaseOperations.getUserById(userId);
+				if (userId != 0)
+				{
+					User user = DatabaseOperations.getUserById(userId);
 
-				model.addAttribute("userId", userId);
-				model.addAttribute("userName", user.getUserName());
-				model.addAttribute("isAdmin", isAdmin);
+					model.addAttribute("userId", userId);
+					model.addAttribute("userName", user.getUserName());
+					model.addAttribute("isAdmin", isAdmin);
+				}
 			}
 		}
 
