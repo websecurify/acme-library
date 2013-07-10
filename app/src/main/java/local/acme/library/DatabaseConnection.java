@@ -9,8 +9,8 @@ public class DatabaseConnection
 {
 	private static final Logger logger = LoggerFactory.getLogger(DatabaseConnection.class);
 
-	private String url = "jdbc:mysql://localhost:8889/";
-	private String dbName = "books";
+	private String url = "jdbc:mysql://localhost:3306/";
+	private String dbName = "acme-library";
 	private String driver = "com.mysql.jdbc.Driver";
 	private String userName = "acme";
 	private String password = "acme";
