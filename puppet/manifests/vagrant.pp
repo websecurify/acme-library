@@ -74,7 +74,13 @@ class maven-setup {
 }
 
 class app-setup {
-	exec { 'app-rebuild':
+	exec { 'app-compile':
+		require => Package['maven2'],
+		command => '/usr/bin/mvn compile',
+		cwd => '/vagrant/app',
+	}
+	
+	exec { 'app-explode':
 		require => Package['maven2'],
 		command => '/usr/bin/mvn war:exploded',
 		cwd => '/vagrant/app',
