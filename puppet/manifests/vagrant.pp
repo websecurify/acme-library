@@ -18,11 +18,19 @@ class mysql-setup {
 			root_password => 'toor',
 		},
 	}
+	
+	mysql::db { 'acme-library':
+		ensure => present,
+		user => 'acme',
+		password => 'acme',
+		grant => ['all'],
+		sql => '/vagrant/puppet/manifests/acme-library.sql',
+		enforce_sql => true,
+	}
 }
 
 class apache-setup {
 	class { 'apache':
-		mpm_module => 'prefork',
 	}
 	
 	class { 'apache::mod::proxy_http':
