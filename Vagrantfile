@@ -4,7 +4,6 @@ Vagrant.configure("2") do |config|
 	config.vm.hostname  = "acme-library.local"
 	
 	config.vm.network :private_network, ip: "192.168.56.102"
-	# config.vm.host_name "acme-library"
 	
 	config.vm.provision :puppet do |puppet|
 		puppet.manifests_path = "puppet/manifests"
