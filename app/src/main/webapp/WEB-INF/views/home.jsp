@@ -24,7 +24,7 @@
 
 		<h1>Books! Main Page</h1>
 
-		<form action="/books" method="GET">
+		<form action="./" method="GET">
 			<input name="filter" value="${displayFilter}" />
 			<input type="submit" value="Filter" />
 		</form>
@@ -53,14 +53,14 @@
 						<c:if test="${userId != null && userId != ''}">
 							<td>
 								<c:if test="${book.reservedCount < book.totalCount}">
-									<a href="/books/reserve?id=${book.id}&flag=yes">Reserve</a>
+									<a href="./reserve?id=${book.id}&flag=yes">Reserve</a>
 								</c:if>
 								<c:if test="${isAdmin == 'yes'}">
 									<c:if test="${book.isBlocked() == true}">
-										<a href="/books/block?id=${book.id}&flag=no">Unblock</a>
+										<a href="./block?id=${book.id}&flag=no">Unblock</a>
 									</c:if>
 									<c:if test="${book.isBlocked() == false}">
-										<a href="/books/block?id=${book.id}&flag=yes">Block</a>
+										<a href="./block?id=${book.id}&flag=yes">Block</a>
 									</c:if>
 								</c:if>
 							</td>

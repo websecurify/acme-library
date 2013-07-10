@@ -8,9 +8,9 @@
 	<body>
 
 		<% if (pageContext.getAttribute("userId") == null) { %>
-			<p>Welcome | <a href="/login">Login</a> | <a href="/createaccount">Create Account</a></p>
+			<p>Welcome | <a href="./login">Login</a> | <a href="./createaccount">Create Account</a></p>
 		<% } else { %>
-			<p>Welcome ${sessionId} | <a href="/logout">Logout</a></p>
+			<p>Welcome ${sessionId} | <a href="./logout">Logout</a></p>
 		<% } %>
 
 		<h1>

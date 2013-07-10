@@ -13,7 +13,7 @@
 
 		<p>${error}</p>
 
-		<form action="/books/login" method="GET">
+		<form action="./login" method="GET">
 			<table>
 				<tr>
 					<td>Username</td>

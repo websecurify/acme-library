@@ -13,7 +13,7 @@
 
 		<p>${error}</p>
 
-		<form action="/books/createaccount" method="GET">
+		<form action="./createaccount" method="GET">
 			<table>
 				<tr>
 					<td>Username</td>

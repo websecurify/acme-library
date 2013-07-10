@@ -2,9 +2,9 @@
 <%@ page session="false" %>
 
 	<c:if test="${userId == null}">
-		<p><a href="/books">Welcome</a> | <a href="/books/login">Login</a> | <a href="/books/createaccount">Create Account</a></p>
+		<p><a href="./">Welcome</a> | <a href="./login">Login</a> | <a href="./createaccount">Create Account</a></p>
 	</c:if>
 
 	<c:if test="${userId != null}">
-		<p><a href="/books">Welcome</a>, ${userName} | <a href="/books/logout">Logout</a></p>
+		<p><a href="./">Welcome</a>, ${userName} | <a href="./logout">Logout</a></p>
 	</c:if>
