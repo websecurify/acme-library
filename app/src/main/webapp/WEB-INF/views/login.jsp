@@ -1,18 +1,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="false" %>
+
 <html>
 	<head>
 		<title>Books! Login</title>
 	</head>
-
+	
 	<body>
-
-		<jsp:include page="welcome.jsp" />
-
+		<jsp:include page="welcome.jsp"/>
+		
 		<h1>Books! Login</h1>
-
+		
 		<p>${error}</p>
-
+		
 		<form action="./login" method="GET">
 			<table>
 				<tr>
@@ -29,6 +29,5 @@
 				</tr>
 			</table>
 		</form>
-
 	</body>
 </html>
