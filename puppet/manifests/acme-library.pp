@@ -1,31 +1,34 @@
-class system-update {
-	class { 'apt':
-	}
-	
-	exec { 'apt-update':
-		command => '/usr/bin/apt-get update',
-	}
-	
-	Exec['apt-update'] -> Package <| |>
-}
-
 class mysql-setup {
-	class { 'mysql':
-	}
-	
-	class { 'mysql::server':
-		config_hash => {
-			root_password => 'toor',
+	class { '::mysql::server':
+		root_password => 'toor',
+		
+		users => {
+			'acme@localhost' => {
+				ensure => present,
+				password_hash => mysql_password('acme'),
+			}
 		},
+		
+		databases => {
+			'acme-library' => {
+				ensure => present,
+			},
+		},
+		
+		grants => {
+			'acme@localhost/acme-library.*' => {
+				ensure => present,
+				options => ['GRANT'],
+				privileges => ['SELECT', 'INSERT', 'UPDATE', 'DELETE'],
+				table => 'acme-library.*',
+				user => 'acme@localhost',
+			}
+		}
 	}
 	
-	mysql::db { 'acme-library':
-		ensure => present,
-		user => 'acme',
-		password => 'acme',
-		grant => ['all'],
-		sql => '/vagrant/puppet/manifests/acme-library.sql',
-		enforce_sql => true,
+	exec { 'mysql-import':
+		require => Class['::mysql::server'],
+		command => '/usr/bin/mysql -uroot -ptoor acme-library < /puppet/manifests/acme-library.sql',
 	}
 }
 
@@ -39,7 +42,7 @@ class apache-setup {
 	apache::vhost { 'acme-library':
 		default_vhost => true,
 		port => '80',
-		docroot => '/vagrant/app',
+		docroot => '/app',
 		
 		proxy_pass => [
 			{
@@ -58,7 +61,7 @@ class tomcat-setup {
 	file { '/var/lib/tomcat7/webapps/acme-library':
 		require => Package['tomcat7'],
 		ensure => link,
-		target => '/vagrant/app/target/webapp',
+		target => '/app/target/webapp',
 	}
 	
 	service { 'tomcat7':
@@ -77,17 +80,16 @@ class app-setup {
 	exec { 'app-compile':
 		require => Package['maven2'],
 		command => '/usr/bin/mvn compile',
-		cwd => '/vagrant/app',
+		cwd => '/app',
 	}
 	
 	exec { 'app-explode':
 		require => Package['maven2'],
 		command => '/usr/bin/mvn war:exploded',
-		cwd => '/vagrant/app',
+		cwd => '/app',
 	}
 }
 
-include system-update
 include mysql-setup
 include apache-setup
 include tomcat-setup
