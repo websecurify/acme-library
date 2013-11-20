@@ -1,0 +1,33 @@
+{
+	"namespace": "acme-library",
+	
+	"virtualbox": {
+		"vmId": "precise64",
+		"vmUrl": "https://s3.amazonaws.com/node-vortex/precise64.ova",
+		"username": "vortex",
+		"password": "vortex"
+	},
+	
+	"nodes": {
+		"app": {
+			"expose": {
+				"./puppet": "/puppet",
+				"./app": "/app"
+			},
+			
+			"roost": {
+				"apt": {
+					"update": true
+				},
+				
+				"packages": [
+					"puppet"
+				],
+				
+				"commands": [
+					"puppet apply --verbose --modulepath /puppet/modules/ /puppet/manifests/acme-library.pp"
+				]
+			}
+		}
+	}
+}
